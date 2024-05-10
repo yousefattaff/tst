@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- <include file="$(find waiter_robot_description_pkg)/launch/robot_tf_real.launch"/> -->
+    <include file="$(find waiter_robot_description_pkg)/launch/robot_descripion_real.launch"/>
+
+  <!-- <include file="$(find hoverboard_driver)/launch/hoverboard.launch"/> -->
+
+  <include file="$(find mpu_6050_driver)/launch/imu_9250.launch"/>
+    <!-- <include file="$(find waiter_robot_description_pkg)/launch/laser_and_filter_180.launch"/> -->
+
+  <!-- <include file="$(find visual_odom_pkg)/launch/robot_localization_my_conf.launch"/> -->
+
+    <include file="$(find visual_odom_pkg)/launch/robot_ekf_visual.launch"/>
+
+    <include file="$(find waiter_robot_gmapping_pkg)/launch/gmapping.launch">
+
+  </include>
+
+</launch>
