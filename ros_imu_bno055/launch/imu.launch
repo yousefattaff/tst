@@ -1,0 +1,42 @@
+<?xml version="1.0"?> 
+<launch>
+
+    <arg name="serial_port" default="/dev/ttyUSB2" />
+    <arg name="frame_id" default="imu_link" />
+    <arg name="operation_mode" default="IMU"/>
+    <arg name="oscillator" default="INTERNAL" />
+    <arg name="reset_orientation" default="true" />
+    <arg name="frequency" default="50" /> 
+    <arg name="use_magnetometer" default="false" />
+    <arg name="use_temperature" default="false" /> 
+
+
+    <node pkg="ros_imu_bno055" type="imu_ros.py" name="ros_imu_bno055_node" output="screen">
+        <param name="serial_port" value="$(arg serial_port)" />
+        <param name="frame_id" value="$(arg frame_id)" />
+        <param name="operation_mode" value="$(arg operation_mode)" />
+        <param name="oscillator" value="$(arg oscillator)" />
+        <param name="reset_orientation" value = "$(arg reset_orientation)" />
+        <param name="frequency" value="$(arg frequency)" />
+        <param name="use_magnetometer" value="$(arg use_magnetometer)" />    
+        <param name="use_temperature" value="$(arg use_temperature)" /> 
+        <!-- <remap from="/imu/data_raw" to="/imu/data"/> -->
+
+    </node>
+  <!-- <node name="imu_filter_node_for_orientation" pkg="imu_complementary_filter" type="complementary_filter_node" >
+        <param name="_world_frame" type="string" value="base_link" />
+
+  </node> -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint_to_imu_link" args="0 0 0 0 0 0  /base_footprint /imu_link 10"/>
+
+    <node pkg="imu_filter_madgwick" type="imu_filter_node" name="ImuFilter">
+            <param name="fixed_frame" value="base_footprint" />
+        <param name="use_mag" type="bool" value="false" />
+        <param name="_publish_tf" type="bool" value="false" />
+        <param name="_world_frame" type="string" value="enu" />
+        <!-- <remap from="/imu/data_raw" to="/camera/data"/> -->
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint_to_base_link" args="0 0 0.01 0 0 0  /base_footprint /base_link"/>
+
+    <!-- Publish static transform from base_footprint to imu_link -->
+</launch>
