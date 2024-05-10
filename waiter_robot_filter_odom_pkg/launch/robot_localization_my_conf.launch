@@ -1,0 +1,19 @@
+<launch>
+
+  <arg name="rviz"      default="true"/>
+  <arg name="viz_veh"   default="true"/>
+  <arg name="x_forward" default="false"/>
+
+ 
+
+  <!-- Launch local EKF node (Odom frame) -->
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_local"
+        clear_params="true" output="screen">
+    <rosparam command="load" file="$(find waiter_robot_filter_odom_pkg)/config/ekf_construct.yaml"/>
+    <!--  Output topic remapping -->
+  </node>
+
+  <!-- RVIZ -->
+    <!-- <node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz"
+          args="-d $(find waiter_robot_filter_odom_pkg)/rviz/test_odom.rviz"/> -->
+</launch> 
