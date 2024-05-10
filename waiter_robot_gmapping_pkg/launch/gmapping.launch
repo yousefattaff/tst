@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+
+<!-- Gmapping -->
+
+
+
+<launch> 
+  <arg name="scan_topic" default="/scan_filtered" /> 
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" output="screen"> 
+    <rosparam file="$(find waiter_robot_gmapping_pkg)/config/gmapping.yaml" command="load" />
+
+    <remap from="scan" to="$(arg scan_topic)"/> 
+    
+  </node> 
+ 
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find waiter_robot_gmapping_pkg)/rviz/gmapping.rviz" required="true" />
+
+ 
+</launch> 
